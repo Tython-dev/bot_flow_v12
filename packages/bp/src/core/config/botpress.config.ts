@@ -343,7 +343,7 @@ export interface BotpressConfig {
     [strategyId: string]: AuthStrategy
   }
   /**
-   * Displays the "Powered by Botpress" under the webchat.
+   * Displays the "Powered by TybotFlow" under the webchat.
    * Help us spread the word, enable this to show your support !
    * @default true
    */
