@@ -19,9 +19,9 @@ const Menu: FC<MenuProps> = ({ items, className }) => {
   )
 
   return (
-    <aside className={cx(style.sidebar, className, 'bp-sidebar')}>
+    <aside className={cx(style.sidebar, className, 'bp-sidebar')} style={{ backgroundColor: 'rgb(53, 4, 40) !important' }}>
       <a href="admin/" className={cx(style.logo, 'bp-logo')}>
-        <img width="19" src="assets/studio/ui/public/img/logo-icon.svg" alt="Botpress Logo" />
+        <img width="19" src="studio-custom/assets/logo-icon.svg" alt="Tybot Logo" />
       </a>
       {!!items?.length && <ul className={cx('nav')}>{items.map(renderBasicItem)}</ul>}
     </aside>

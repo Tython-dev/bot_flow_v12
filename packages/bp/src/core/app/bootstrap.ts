@@ -117,7 +117,7 @@ async function start() {
 
     if (await isElevated()) {
       logger.warn(
-        'You are running Botpress as a privileged user. This is not recommended. Please consider running it as an unprivileged user.'
+        'You are running Tybot as a privileged user. This is not recommended. Please consider running it as an unprivileged user.'
       )
     }
 
@@ -164,7 +164,7 @@ async function start() {
     process.LOADED_MODULES[loadedModule.entryPoint.definition.name] = loadedModule.moduleLocation
   }
 
-  showBanner({ title: 'Botpress Server', version: sdk.version, logScopeLength: 9, bannerWidth: 75, logger })
+  showBanner({ title: 'Tybot Server', version: sdk.version, logScopeLength: 9, bannerWidth: 75, logger })
 
   if (!fs.existsSync(process.APP_DATA_PATH)) {
     try {
@@ -172,7 +172,7 @@ async function start() {
     } catch (err) {
       logger.attachError(err).error(
         `Could not find/create APP_DATA folder "${process.APP_DATA_PATH}".
-Please make sure that Botpress has the right to access this folder or change the folder path by providing the 'APP_DATA_PATH' env variable.
+Please make sure that Tybot has the right to access this folder or change the folder path by providing the 'APP_DATA_PATH' env variable.
 This is a fatal error, process will exit.`
       )
 
@@ -215,7 +215,7 @@ This is a fatal error, process will exit.`
   }
 
   await app.botpress.start({ modules: loadedModules.map(m => m.entryPoint) }).catch(err => {
-    logger.attachError(err).error('Error starting Botpress')
+    logger.attachError(err).error('Error starting Tybot')
 
     if (!process.IS_FAILSAFE) {
       process.exit(1)
@@ -226,15 +226,15 @@ This is a fatal error, process will exit.`
   await AppLifecycle.waitFor(AppLifecycleEvents.STUDIO_READY)
 
   logger.info('')
-  logger.info('='.repeat(75))
-  logger.info('-->  Documentation is available at    📘 https://botpress.com/docs')
-  logger.info('-->  Ask your questions on            👥 https://forum.botpress.com')
+  // logger.info('='.repeat(75))
+  // logger.info('-->  Documentation is available at    📘 https://botpress.com/docs')
+  // logger.info('-->  Ask your questions on            👥 https://forum.botpress.com')
   logger.info('='.repeat(75))
   logger.info('')
 
-  logger.info(chalk.bold('Botpress is ready. open the Studio in your favorite browser.'))
-  logger.info(chalk.bold(`Botpress is listening at ${process.LOCAL_URL} (browser)`))
-  logger.info(chalk.bold(`Botpress is exposed at ${process.EXTERNAL_URL}`))
+  logger.info(chalk.bold('Tybot is ready. open the Studio in your favorite browser.'))
+  logger.info(chalk.bold(`Tybot is listening at ${process.LOCAL_URL} (browser)`))
+  logger.info(chalk.bold(`Tybot is exposed at ${process.EXTERNAL_URL}`))
 }
 
 start().catch(global.printErrorDefault)

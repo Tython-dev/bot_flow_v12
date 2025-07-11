@@ -18,10 +18,10 @@ class AlertingRouter extends CustomAdminRouter {
           return res.sendStatus(400)
         }
 
-        const config = await this.configProvider.getBotpressConfig()
-        if (!_.get(config, 'pro.alerting.enabled', false)) {
-          return res.send(undefined)
-        }
+        // const config = await this.configProvider.getBotpressConfig()
+        // // if (!_.get(config, 'pro.alerting.enabled', false)) {
+        // //   return res.send(undefined)
+        // // }
 
         res.send(await this.alertingService.getIncidents(fromTime, toTime))
       })

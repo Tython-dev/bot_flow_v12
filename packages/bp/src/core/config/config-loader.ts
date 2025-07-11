@@ -257,25 +257,25 @@ export class ConfigProvider {
   public async getBrandingConfig(appName: 'admin' | 'studio' | 'webchat') {
     const defaultConfig = {
       admin: {
-        title: 'Botpress Admin Panel',
+        title: 'Tybot Admin Panel',
         favicon: 'assets/admin/ui/public/favicon.ico',
         customCss: ''
       },
       studio: {
-        title: 'Botpress Studio',
+        title: 'Tybot Studio',
         favicon: 'assets/studio/ui/public/img/favicon.png',
         customCss: ''
       },
       webchat: {
-        title: 'Botpress Webchat',
+        title: 'Tybot Webchat',
         favicon: 'assets/studio/ui/public/img/favicon.png',
         customCss: ''
       }
     }
 
-    if (!process.IS_PRO_ENABLED) {
-      return defaultConfig[appName]
-    }
+    // if (!process.IS_PRO_ENABLED) {
+    //   return defaultConfig[appName]
+    // }
 
     const config = await this.getBotpressConfig()
     const { title, favicon, customCss } = config.pro?.branding?.[appName] ?? defaultConfig[appName] ?? {}

@@ -27,7 +27,8 @@
 }
 
 .sidebar {
-  background-color: var(--shark);
+  background-color:  rgb(53, 4, 40);
+  // background-color: var(--shark);
   color: var(--seashell);
   position: relative;
   width: 40px;
@@ -103,7 +104,8 @@
         }
 
         &.active {
-          border-color: var(--ocean);
+          border-color:  rgb(215, 128, 192);
+          //border-color: var(--ocean);
         }
       }
     }

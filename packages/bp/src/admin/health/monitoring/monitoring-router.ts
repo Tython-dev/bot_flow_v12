@@ -18,9 +18,9 @@ class MonitoringRouter extends CustomAdminRouter {
         }
 
         const config = await this.configProvider.getBotpressConfig()
-        if (!_.get(config, 'pro.monitoring.enabled', false)) {
-          return res.send(undefined)
-        }
+        // if (!_.get(config, 'pro.monitoring.enabled', false)) {
+        //   return res.send(undefined)
+        // }
 
         res.send(await this.monitoringService.getStats(fromTime, toTime))
       })

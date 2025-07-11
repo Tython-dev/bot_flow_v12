@@ -52,9 +52,9 @@ const Menu: FC<Props> = props => {
       active = true
     }
 
-    if (!props.licensing || (isPro && !props.licensing.isPro)) {
-      return null
-    }
+    // if (!props.licensing || (isPro && !props.licensing.isPro)) {
+    //   return null
+    // }
 
     return (
       <AccessControl resource={resource} operation={operation} superAdmin={superAdmin} key={text}>
@@ -126,6 +126,14 @@ const Menu: FC<Props> = props => {
           operation="read"
         />
 
+        {/* Nouvel élément de menu personnalisé */}
+        <MenuItem
+          id="btn-menu-custom-nlu"
+          text="NLU Analytics"
+          icon="timeline-area-chart"
+          url="/custom/nlu-analytics"
+        />
+
         <MenuItem
           id="btn-menu-users"
           text={lang.tr('admin.sideMenu.collaborators')}
@@ -133,17 +141,18 @@ const Menu: FC<Props> = props => {
           url="/workspace/:workspaceId?/users"
           resource="admin.collaborators.*"
           operation="read"
-          isPro={true}
+          // isPro={true}
         />
 
         <MenuItem
           id="btn-menu-roles"
-          text={lang.tr('admin.sideMenu.roles')}
+          // text={lang.tr('admin.sideMenu.roles')}
+          text={'Workspaces'}
           icon="shield"
-          url="/workspace/:workspaceId?/roles"
+          url="/workspaces"
           resource="admin.roles.*"
           operation="read"
-          isPro={true}
+          // isPro={true}
         />
 
         <MenuItem
@@ -164,14 +173,14 @@ const Menu: FC<Props> = props => {
             icon="changes"
             url="/server/version"
           />
-          {props?.licensing?.isPro && (
-            <MenuItem
+          {/* {props?.licensing?.isPro && ( */}
+            {/* <MenuItem
               id="btn-menu-license"
               text={lang.tr('admin.sideMenu.serverLicense')}
               icon={<MdCopyright />}
               url="/server/license"
-            />
-          )}
+            /> */}
+          {/* )} */}
           <MenuItem
             text={lang.tr('admin.sideMenu.languages')}
             id="btn-menu-language"
@@ -185,30 +194,30 @@ const Menu: FC<Props> = props => {
             icon="endorsed"
             url="/checklist"
           />
-          {props?.licensing?.isPro && (
+          {/* {props?.licensing?.isPro && ( */}
             <MenuItem
               id="btn-menu-monitoring"
               text={lang.tr('admin.sideMenu.monitoring')}
               icon="timeline-line-chart"
               url="/server/monitoring"
             />
-          )}
-          {props?.licensing?.isPro && (
+          {/* )}
+          {props?.licensing?.isPro && ( */}
             <MenuItem
               id="btn-menu-alerting"
               text={lang.tr('admin.sideMenu.alerting')}
               icon="notifications"
               url="/server/alerting"
             />
-          )}
+          {/* )} */}
         </AccessControl>
-        <MenuItem
+        {/* <MenuItem
           text={lang.tr('admin.sideMenu.latestReleases')}
           id="btn-menu-releases"
           icon="feed"
           url="/latestReleases"
           tag={renderLatestReleaseTag()}
-        />
+        /> */}
       </ul>
     </aside>
   )

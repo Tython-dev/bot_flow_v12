@@ -3,7 +3,7 @@ import { lang } from 'botpress/shared'
 import cx from 'classnames'
 import React, { FC } from 'react'
 
-import logo from './media/bp-logo-white.png'
+import logo from './media/1234567.png'
 import style from './style.scss'
 
 interface Props {
@@ -37,7 +37,7 @@ const LoginContainer: FC<Props> = props => {
           {props.poweredBy && (
             <div className={cx('homepage', style.homepage)}>
               <p>
-                {lang.tr('admin.poweredBy')} <a href="https://botpress.com">Botpress</a>
+                {lang.tr('admin.poweredBy')} <a href="https://tybot.ma/">Tybot</a>
               </p>
             </div>
           )}

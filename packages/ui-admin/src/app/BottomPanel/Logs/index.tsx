@@ -12,6 +12,7 @@ import api from '~/app/api'
 import EventBus from '~/app/EventBus'
 import { isOperationAllowed } from '~/auth/AccessControl'
 import { toggleBottomPanel } from '../../uiReducer'
+import NLUTestInterface from '../NLUTestInterface'
 import style from '../style.scss'
 import BotDropdown from './BotDropdown'
 import Debug from './Debug'
@@ -216,6 +217,18 @@ class BottomPanel extends React.Component<Props, State> {
             panel={<Debug ref={this.debugRef} />}
           />
         )}
+
+        {/* Nouvel onglet pour les logs NLU */}
+        <Tab
+          id="nlu-logs"
+          className={style.tab}
+          title="NLU Debug"
+          panel={
+            <div className={style.tabContainer}>
+              <NLUTestInterface botId={this.state.botFilter !== '*' ? this.state.botFilter : undefined} />
+            </div>
+          }
+        />
 
         {this.state.selectedPanel === 'logs' && (
           <Fragment>

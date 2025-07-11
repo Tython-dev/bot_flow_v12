@@ -64,20 +64,20 @@ const CheckRequirements: FC<Props> = props => {
     }
   }
 
-  if (missingReq.length) {
-    return (
-      <div className={style.requirements}>
-        <Callout title={lang.tr('admin.requirements.missing')}>
-          {props.messageReqMissing || lang.tr('admin.requirements.alsoRequired')}
-          <div style={{ padding: '20px 0' }}>
-            {missingReq.includes('pro') && <strong>{lang.tr('admin.requirements.pro')}</strong>}
-            {missingReq.includes('redis') && <strong>{lang.tr('admin.requirements.redis')}</strong>}
-            {missingReq.includes('monitoring') && <strong>{lang.tr('admin.requirements.monitoring')}</strong>}
-          </div>
-        </Callout>
-      </div>
-    )
-  }
+  // if (missingReq.length) {
+  //   return (
+  //     <div className={style.requirements}>
+  //       <Callout title={lang.tr('admin.requirements.missing')}>
+  //         {props.messageReqMissing || lang.tr('admin.requirements.alsoRequired')}
+  //         <div style={{ padding: '20px 0' }}>
+  //           {missingReq.includes('pro') && <strong>{lang.tr('admin.requirements.pro')}</strong>}
+  //           {missingReq.includes('redis') && <strong>{lang.tr('admin.requirements.redis')}</strong>}
+  //           {missingReq.includes('monitoring') && <strong>{lang.tr('admin.requirements.monitoring')}</strong>}
+  //         </div>
+  //       </Callout>
+  //     </div>
+  //   )
+  // }
 
   if (!props.serverConfigLoaded) {
     return <LoadingSection />

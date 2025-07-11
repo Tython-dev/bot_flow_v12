@@ -156,7 +156,8 @@ class Alerts extends Component<Props, State> {
   render() {
     return (
       <PageContainer title={lang.tr('admin.alerting.alertingAndIncidents')} fullWidth={true} superAdmin={true}>
-        <CheckRequirements requirements={['redis', 'pro', 'monitoring']} feature="alerting">
+        {/* <CheckRequirements requirements={['redis', 'pro', 'monitoring']} feature="alerting"> */}
+        <CheckRequirements requirements={['redis', 'monitoring']} feature="alerting">
           {this.renderChild()}
         </CheckRequirements>
       </PageContainer>

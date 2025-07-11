@@ -32,9 +32,9 @@ const Header: FC<Props> = props => {
         </Navbar.Group>
         <Navbar.Group align={Alignment.RIGHT}>
           <WorkspaceSelect />
-          <Navbar.Divider />
+          {/* <Navbar.Divider />
           <HelpMenu />
-          <Navbar.Divider />
+          <Navbar.Divider /> */}
           <AccessControl resource="admin.logs" operation="read">
             <Tooltip content={<div className={style.tooltip}>{lang.tr('bottomPanel.label')}</div>}>
               <Button onClick={props.toggleBottomPanel} minimal>
@@ -42,6 +42,19 @@ const Header: FC<Props> = props => {
               </Button>
             </Tooltip>
           </AccessControl>
+
+          {/* Bouton personnalisé pour les tests NLU */}
+          <Tooltip content={<div className={style.tooltip}>Test NLU Debug</div>}>
+            <Button
+              onClick={() => {
+                console.log('[DEBUG] Test NLU activé!')
+                // Logique personnalisée ici
+              }}
+              minimal
+            >
+              <Icon color={Colors.ORANGE1} icon="lab-test" iconSize={16} />
+            </Button>
+          </Tooltip>
 
           <Navbar.Divider />
           <UserDropdownMenu />

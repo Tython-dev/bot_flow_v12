@@ -217,7 +217,7 @@ export interface BotpressConfig {
       admin: {
         /**
          * Change the name displayed in the title bar on the admin panel
-         * @example "Botpress Admin Panel"
+         * @example "Tybot Admin Panel"
          */
         title?: string
         /**
@@ -234,7 +234,7 @@ export interface BotpressConfig {
       studio: {
         /**
          * Change the name displayed in the title bar on the studio
-         * @example "Botpress Studio"
+         * @example "Tybot Studio"
          */
         title?: string
         /**
@@ -343,7 +343,7 @@ export interface BotpressConfig {
     [strategyId: string]: AuthStrategy
   }
   /**
-   * Displays the "Powered by TybotFlow" under the webchat.
+   * Displays the "Powered by Botpress" under the webchat.
    * Help us spread the word, enable this to show your support !
    * @default true
    */

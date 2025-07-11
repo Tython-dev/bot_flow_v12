@@ -8,18 +8,20 @@ import { Socket, io } from 'socket.io-client'
 
 import { Stats } from './stats'
 
+//nizar
+
 class Bench {
   stats: Stats
   /** The default payload that each users will send */
   defaultMessage: any
   /** The target percentage of messages which must be under the limit sla */
-  slaTarget: number = 100
+  slaTarget: number = 1000000
   /** Messages taking more than this time are not meeting the desired SLA */
-  slaLimit: number = 1500
+  slaLimit: number = 15000000
   /** Number of users sending a message simultaneously */
-  users: number = 10
+  users: number = 100000
   /** Number of messages that each users will send, one after another */
-  messages: number = 5
+  messages: number = 50000
   /**
    * When this value is defined, the benchmark scenario will start over and increment the number of users by this value.
    * The scenario will be repeated until the speficied SLA is no longer respected
