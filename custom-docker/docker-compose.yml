@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  botpress:
+    build: ..
+    image: custom-botpress:v12
+    container_name: botpress-custom
+    ports:
+      - 3001:3000
+    environment:
+      - DATABASE_URL=sqlite:///botpress/data/storage.db
+      - BP_MODULE_NLU_DUCKLINGURL=http://duckling-custom:8000
+    volumes:
+      - ./data:/botpress/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/v1/status"]
+      interval: 60s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  duckling:
+    image: custom-botpress:v12
+    container_name: duckling-custom
+    command: ./duckling -p 8000
+    expose:
+      - 8000
