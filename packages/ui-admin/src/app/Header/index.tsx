@@ -42,20 +42,6 @@ const Header: FC<Props> = props => {
               </Button>
             </Tooltip>
           </AccessControl>
-
-          {/* Bouton personnalisé pour les tests NLU */}
-          <Tooltip content={<div className={style.tooltip}>Test NLU Debug</div>}>
-            <Button
-              onClick={() => {
-                console.log('[DEBUG] Test NLU activé!')
-                // Logique personnalisée ici
-              }}
-              minimal
-            >
-              <Icon color={Colors.ORANGE1} icon="lab-test" iconSize={16} />
-            </Button>
-          </Tooltip>
-
           <Navbar.Divider />
           <UserDropdownMenu />
         </Navbar.Group>

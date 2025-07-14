@@ -126,14 +126,6 @@ const Menu: FC<Props> = props => {
           operation="read"
         />
 
-        {/* Nouvel élément de menu personnalisé */}
-        <MenuItem
-          id="btn-menu-custom-nlu"
-          text="NLU Analytics"
-          icon="timeline-area-chart"
-          url="/custom/nlu-analytics"
-        />
-
         <MenuItem
           id="btn-menu-users"
           text={lang.tr('admin.sideMenu.collaborators')}
