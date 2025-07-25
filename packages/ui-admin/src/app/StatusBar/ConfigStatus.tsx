@@ -70,7 +70,7 @@ const ConfigStatus = () => {
         description="Pending changes"
         onClick={() => setOpen(true)}
       >
-        {isDifferent && <Icon icon="cog" style={{ color: Colors.RED5 }} />}
+        {<Icon icon="cog" style={{ color: Colors.RED5 }} />}
       </ActionItem>
 
       <Dialog.Wrapper
