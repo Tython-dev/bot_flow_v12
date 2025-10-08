@@ -9,7 +9,7 @@ import { Renderer } from '../../typings'
 import { showContextMenu } from '../ContextMenu'
 import * as Keyboard from '../Keyboard'
 
-import { Carousel, FileMessage, LoginPrompt, Text, VoiceMessage } from './renderer'
+import { Carousel, FileMessage, LoginPrompt, Text, VoiceMessage, Products, Json } from './renderer'
 import { Dropdown } from './renderer/Dropdown'
 
 class Message extends Component<MessageProps> {
@@ -60,6 +60,30 @@ class Message extends Component<MessageProps> {
         escapeHTML={this.props.store.escapeHTML}
         isBotMessage={this.props.isBotMessage}
         intl={this.props.intl}
+      />
+    )
+  }
+
+  render_products() {
+    const payload = this.props.payload || {}
+    return (
+      <Products
+        {...payload}
+        isBotMessage={this.props.isBotMessage}
+        intl={this.props.intl}
+        className={this.props.className}
+      />
+    )
+  }
+
+  render_json() {
+    const payload = this.props.payload || {}
+    return (
+      <Json
+        {...payload}
+        isBotMessage={this.props.isBotMessage}
+        intl={this.props.intl}
+        className={this.props.className}
       />
     )
   }

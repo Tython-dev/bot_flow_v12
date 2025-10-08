@@ -152,6 +152,34 @@ export namespace Renderer {
     payload: any
     text: string
   }
+
+  /** Products message payload */
+  export type ProductItem = {
+    name?: string
+    price?: number | string
+    image?: string
+  }
+
+  export type Products = {
+    /** Must be 'products' when used as a message */
+    type?: 'products'
+    /** Array of products to render */
+    products: ProductItem[]
+  } & Message
+
+  /** Generic JSON payload renderer */
+  export type Json = {
+    /** Must be 'json' when used as a message */
+    type?: 'json'
+    /** Optional title displayed above the JSON payload */
+    title?: string
+    /** Raw JSON payload to display */
+    json?: unknown
+    /** Alias for json to provide flexibility when sending events */
+    data?: unknown
+    /** Allow rendering a preformatted string if desired */
+    text?: string
+  } & Message
 }
 
 export namespace View {
