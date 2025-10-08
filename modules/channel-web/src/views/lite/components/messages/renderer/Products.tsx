@@ -1,5 +1,4 @@
 import React from 'react'
-import { Renderer } from '../../../typings'
 
 /**
  * Simple product cards grid renderer
@@ -9,7 +8,18 @@ import { Renderer } from '../../../typings'
  *   products: [{ name, price, image }]
  * }
  */
-const formatPrice = (price: Renderer.ProductItem['price']) => {
+type ProductItem = {
+  name?: string
+  price?: number | string
+  image?: string
+}
+
+type ProductsProps = {
+  products?: ProductItem[]
+  className?: string
+}
+
+const formatPrice = (price: ProductItem['price']) => {
   if (price === null || typeof price === 'undefined') {
     return null
   }
@@ -25,7 +35,7 @@ const formatPrice = (price: Renderer.ProductItem['price']) => {
   return price
 }
 
-export const Products = (props: Renderer.Products) => {
+export const Products = (props: ProductsProps) => {
   const { products = [], className } = props
 
   if (!Array.isArray(products) || products.length === 0) {
