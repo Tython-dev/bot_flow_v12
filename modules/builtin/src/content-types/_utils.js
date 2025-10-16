@@ -49,6 +49,13 @@ function extractPayload(type, data) {
   delete payload.bot
   delete payload.BOT_URL
 
+  // Remove undefined values to prevent 400 errors
+  Object.keys(payload).forEach(key => {
+    if (payload[key] === undefined) {
+      delete payload[key]
+    }
+  })
+
   return payload
 }
 
