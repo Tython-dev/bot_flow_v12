@@ -26,7 +26,7 @@ const stringify = (value: unknown): string => {
 export const Json = (props: Renderer.Json) => {
   const { className, title, text } = props
   const raw = props.json ?? props.data ?? null
-  const content = text || stringify(raw)
+  const content = typeof text === 'string' ? text : stringify(text ?? raw)
 
   if (!content) {
     return null
