@@ -128,7 +128,7 @@ export class SdkApiRouter extends CustomRouter {
      *
      * @param botId (required)
      * @param contentTypeId (optional) Filter elements for a specific content type
-     * @param searchParams (optional) Additional search parameters
+     * @param searchParams (optional) Additional search parameters-
      * @param language (optional) When set, only the specified language is returned. All languages otherwise
      */
     this.router.post(

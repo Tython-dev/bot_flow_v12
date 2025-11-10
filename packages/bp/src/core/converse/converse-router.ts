@@ -46,13 +46,9 @@ export class ConverseRouter extends CustomRouter {
       '/:userId',
       this.shouldRespondToPublicEndpoint,
       this.httpServer.extractExternalToken,
+      // Unsecured endpoint now accepts any payload structure
+      // Similar to secured endpoint, no schema validation applied
       this.asyncMiddleware(async (req, res) => {
-        try {
-          await joi.validate(req.body, conversePayloadSchema)
-        } catch (err) {
-          throw new StandardError('Invalid payload', err)
-        }
-
         const { userId, botId } = req.params
         const params = req.query.include
 

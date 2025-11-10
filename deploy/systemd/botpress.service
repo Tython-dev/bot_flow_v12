@@ -1,0 +1,21 @@
+[Unit]
+Description=Botpress v12
+After=network.target
+
+[Service]
+Type=simple
+User=botpress
+WorkingDirectory=/opt/botpress
+EnvironmentFile=/opt/botpress/.env
+# Load NVM before running yarn (if using nvm)
+ExecStart=/bin/bash -lc 'export NVM_DIR="$HOME/.nvm"; [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"; cd /opt/botpress; yarn start'
+Restart=always
+RestartSec=5
+# Hardening
+NoNewPrivileges=true
+ProtectSystem=full
+ProtectHome=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
