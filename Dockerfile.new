@@ -50,9 +50,9 @@ ENV BP_IS_DOCKER=true
 ENV LANG=C.UTF-8
 ENV NODE_ENV=production
 
-# Create botpress user and group
-RUN addgroup -g 1000 $BP_GROUP && \
-    adduser -D -u 1000 -G $BP_GROUP $BP_USER
+# Create botpress user and group (skip if already present)
+RUN addgroup -S $BP_GROUP && \
+    adduser -S -G $BP_GROUP $BP_USER
 
 # Set working directory
 WORKDIR $BP_WORKDIR
