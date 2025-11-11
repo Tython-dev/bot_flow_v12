@@ -1,0 +1,78 @@
+# Multi-stage Dockerfile for Custom Botpress v12 Build
+# Stage 1: Build the application
+FROM node:12.22.12-alpine AS builder
+
+# Set working directory
+WORKDIR /botpress
+
+# Install build dependencies
+RUN apk add --no-cache \
+    python3 \
+    make \
+    g++ \
+    git \
+    bash
+
+# Copy package files
+COPY package.json yarn.lock ./
+COPY packages ./packages
+COPY modules ./modules
+COPY .yarnrc .npmrc* ./
+
+# Install dependencies
+RUN yarn install --frozen-lockfile --network-timeout 1000000
+
+# Copy source code
+COPY . .
+
+# Build the application
+RUN yarn build --verbose
+RUN yarn package
+
+# Stage 2: Runtime image
+FROM node:12.22.12-alpine
+
+# Install runtime dependencies
+RUN apk add --no-cache \
+    bash \
+    ca-certificates \
+    wget \
+    tzdata
+
+# Set environment variables
+ENV BP_WORKDIR=/botpress
+ENV BP_USER=botpress
+ENV BP_GROUP=botpress
+ENV BP_DATA_PATH=/botpress/data
+ENV BP_MODULE_NLU_DUCKLINGURL=http://duckling:8000
+ENV BP_IS_DOCKER=true
+ENV LANG=C.UTF-8
+ENV NODE_ENV=production
+
+# Create botpress user and group
+RUN addgroup -g 1000 $BP_GROUP && \
+    adduser -D -u 1000 -G $BP_GROUP $BP_USER
+
+# Set working directory
+WORKDIR $BP_WORKDIR
+
+# Copy built application from builder stage
+COPY --from=builder /botpress/out/bp /botpress/
+COPY --from=builder /botpress/packages/bp/dist /botpress/dist
+
+# Create data directory
+RUN mkdir -p $BP_DATA_PATH && \
+    chown -R $BP_USER:$BP_GROUP $BP_WORKDIR
+
+# Switch to botpress user
+USER $BP_USER
+
+# Expose port
+EXPOSE 3000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+    CMD wget --no-verbose --tries=1 --spider http://localhost:3000/status || exit 1
+
+# Start Botpress
+CMD ["./bp"]

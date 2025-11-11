@@ -1,0 +1,137 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:13-alpine
+    container_name: botpress-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: botpress
+      POSTGRES_USER: botpress
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-botpress_secure_password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - botpress-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U botpress"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  redis:
+    image: redis:6-alpine
+    container_name: botpress-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    networks:
+      - botpress-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Duckling NLU Service
+  duckling:
+    image: rasa/duckling:latest
+    container_name: botpress-duckling
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    networks:
+      - botpress-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Botpress Application
+  botpress:
+    build:
+      context: .
+      dockerfile: Dockerfile.new
+    container_name: botpress-app
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      duckling:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    environment:
+      # Database Configuration
+      DATABASE_URL: postgres://botpress:${POSTGRES_PASSWORD:-botpress_secure_password}@postgres:5432/botpress
+      
+      # Botpress Configuration
+      BP_HOST: 0.0.0.0
+      BP_PORT: 3000
+      BP_PRODUCTION: "true"
+      BP_DATA_PATH: /botpress/data
+      
+      # External URL (update with your domain)
+      EXTERNAL_URL: ${EXTERNAL_URL:-http://localhost:3000}
+      
+      # Redis Configuration
+      REDIS_URL: redis://redis:6379
+      
+      # NLU Duckling
+      BP_MODULE_NLU_DUCKLINGURL: http://duckling:8000
+      
+      # Security
+      BPFS_STORAGE: database
+      
+      # Logging
+      BP_LOG_LEVEL: ${BP_LOG_LEVEL:-info}
+      
+      # Rate Limiting (already disabled in config)
+      BP_HTTP_RATE_LIMIT_ENABLED: "false"
+      
+    volumes:
+      - botpress_data:/botpress/data
+      - ./data/bots:/botpress/data/bots
+      - ./data/global:/botpress/data/global
+    networks:
+      - botpress-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/status"]
+      interval: 30s
+      timeout: 10s
+      start_period: 60s
+      retries: 3
+
+  # Nginx Reverse Proxy (Optional - uncomment if needed)
+  # nginx:
+  #   image: nginx:alpine
+  #   container_name: botpress-nginx
+  #   restart: unless-stopped
+  #   depends_on:
+  #     - botpress
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./deploy/nginx.conf:/etc/nginx/nginx.conf:ro
+  #     - ./ssl:/etc/nginx/ssl:ro
+  #   networks:
+  #     - botpress-network
+
+networks:
+  botpress-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  botpress_data:
+    driver: local
