@@ -17,7 +17,6 @@ RUN apk add --no-cache \
 COPY package.json yarn.lock ./
 COPY packages ./packages
 COPY modules ./modules
-COPY .yarnrc .npmrc* ./
 
 # Install dependencies
 RUN yarn install --frozen-lockfile --network-timeout 1000000

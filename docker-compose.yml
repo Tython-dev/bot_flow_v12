@@ -1,7 +1,8 @@
 version: '3.8'
 
 services:
-  # PostgreSQL Database
+  # PostgreSQL Database (OPTIONAL - Comment out if using existing host PostgreSQL)
+  # If you have PostgreSQL on host, set USE_HOST_POSTGRES=true in .env
   postgres:
     image: postgres:13-alpine
     container_name: botpress-postgres
@@ -19,6 +20,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    profiles:
+      - with-postgres  # Only start if profile is active
 
   # Redis Cache
   redis:
@@ -59,17 +62,21 @@ services:
     container_name: botpress-app
     restart: unless-stopped
     depends_on:
-      postgres:
-        condition: service_healthy
       redis:
         condition: service_healthy
       duckling:
         condition: service_healthy
     ports:
       - "3000:3000"
+    # Use host network to access host PostgreSQL
+    # Comment this out if using containerized postgres
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     environment:
       # Database Configuration
-      DATABASE_URL: postgres://botpress:${POSTGRES_PASSWORD:-botpress_secure_password}@postgres:5432/botpress
+      # For existing host PostgreSQL: postgres://elorchi:password@host.docker.internal:5432/botflow
+      # For containerized PostgreSQL: postgres://botpress:password@postgres:5432/botpress
+      DATABASE_URL: ${DATABASE_URL:-postgres://elorchi:${POSTGRES_PASSWORD}@host.docker.internal:5432/botflow}
       
       # Botpress Configuration
       BP_HOST: 0.0.0.0
